@@ -1,0 +1,9 @@
+<svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- RefreshCw icon from Lucide - teal #14b8a6, scaled to 40x40 -->
+  <g transform="translate(0, 5) scale(1.67)">
+    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="#14b8a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M3 3v5h5" stroke="#14b8a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="52" y="32" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="400" fill="#FFFFFF">Payment</text>
+  <text x="114" y="32" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">Recovery</text>
+</svg>
