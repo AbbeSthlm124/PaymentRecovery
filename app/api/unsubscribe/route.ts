@@ -24,8 +24,8 @@ export async function POST(request: Request) {
     }
 
     await kv.del(`unsub:${token}`);
+    await kv.del(`sub:${email}`);
     await kv.set(`unsubscribed:${email}`, "1");
-    await kv.del(`subscribed:${email}`);
 
     return NextResponse.json({ success: true });
   } catch (err) {

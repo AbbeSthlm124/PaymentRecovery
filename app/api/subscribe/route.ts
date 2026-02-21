@@ -7,7 +7,10 @@ import { randomUUID } from "crypto";
 
 export const dynamic = "force-dynamic";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://paymentrecovery.io";
+const THIRTY_DAYS_SECONDS = 30 * 24 * 60 * 60;
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 function isValidEmail(email: string): boolean {
@@ -126,9 +129,10 @@ export async function POST(request: Request) {
     }
 
     const token = randomUUID();
+    const kvOptions = { ex: THIRTY_DAYS_SECONDS } as const;
     try {
-      await kv.set(`unsub:${token}`, trimmedEmail);
-      await kv.set(`subscribed:${trimmedEmail}`, token);
+      await kv.set(`unsub:${token}`, trimmedEmail, kvOptions);
+      await kv.set(`sub:${trimmedEmail}`, token, kvOptions);
     } catch (kvErr) {
       console.error("KV storage error:", kvErr);
     }

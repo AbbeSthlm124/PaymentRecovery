@@ -38,7 +38,7 @@ export default function UnsubscribeClient({ token }: { token: string | null }) {
     return (
       <div className="min-h-screen bg-void-900 flex items-center justify-center px-6">
         <div className="max-w-md w-full text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Invalid link</h1>
+          <h1 className="text-2xl font-bold text-white mb-4">Invalid or expired link</h1>
           <p className="text-slate-400 mb-6">
             This unsubscribe link is invalid or has expired.
           </p>
