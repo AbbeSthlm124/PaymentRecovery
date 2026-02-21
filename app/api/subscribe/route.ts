@@ -2,11 +2,16 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { readFileSync } from "fs";
 import { join } from "path";
+import { kv } from "@vercel/kv";
+import { randomUUID } from "crypto";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const dynamic = "force-dynamic";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://paymentrecovery.io";
-const CONTACT_URL = `${SITE_URL}/waitlist#contact`;
+
+function getContactUrl(): string {
+  return `${SITE_URL}/waitlist#contact`;
+}
 
 function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -24,8 +29,9 @@ function getLogoDataUri(): string {
   }
 }
 
-function getWaitlistEmailHtml(): string {
+function getWaitlistEmailHtml(unsubscribeToken: string): string {
   const logoSrc = getLogoDataUri();
+  const unsubscribeUrl = `${SITE_URL}/unsubscribe?token=${unsubscribeToken}`;
   return `
 <!DOCTYPE html>
 <html>
@@ -56,7 +62,8 @@ function getWaitlistEmailHtml(): string {
               <p style="margin: 0 0 24px; font-size: 15px; color: #cbd5e1;"><span style="color: #14b8a6;">✓</span> No spam, just product updates</p>
               <p style="margin: 0 0 32px; font-size: 14px; color: #64748b;"><span style="color: #14b8a6;">✓</span> Join 50+ SaaS founders already on the waitlist</p>
               <p style="margin: 0; font-size: 16px; font-weight: 600; color: #ffffff;">PaymentRecovery Team</p>
-              <p style="margin: 16px 0 0; font-size: 14px; color: #64748b;">Questions? Contact us at <a href="${CONTACT_URL}" style="color: #14b8a6; text-decoration: none;">paymentrecovery.io/waitlist#contact</a></p>
+              <p style="margin: 16px 0 0; font-size: 14px; color: #64748b;">Questions? Contact us at <a href="${getContactUrl()}" style="color: #14b8a6; text-decoration: none;">paymentrecovery.io/waitlist#contact</a></p>
+              <p style="margin: 16px 0 0; font-size: 11px; color: #64748b;"><a href="${unsubscribeUrl}" style="color: #64748b; text-decoration: underline;">Unsubscribe</a> from these emails</p>
               <p style="margin: 24px 0 0; font-size: 11px; color: #475569;">Stop Losing Revenue to Failed Payments</p>
             </td>
           </tr>
@@ -69,7 +76,8 @@ function getWaitlistEmailHtml(): string {
 `;
 }
 
-const WELCOME_EMAIL_TEXT = `PaymentRecovery
+function getWelcomeEmailText(unsubscribeToken: string): string {
+  return `PaymentRecovery
 
 Hi there,
 
@@ -88,7 +96,10 @@ Join 50+ SaaS founders already on the waitlist.
 
 PaymentRecovery Team
 
-Questions? Contact us at paymentrecovery.io/waitlist#contact`;
+Questions? Contact us at paymentrecovery.io/waitlist#contact
+
+Unsubscribe: ${SITE_URL}/unsubscribe?token=${unsubscribeToken}`;
+}
 
 export async function POST(request: Request) {
   try {
@@ -109,19 +120,29 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!process.env.RESEND_API_KEY) {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
       return NextResponse.json(
         { error: "Something went wrong. Try again." },
         { status: 500 }
       );
     }
 
+    const token = randomUUID();
+    try {
+      await kv.set(`unsub:${token}`, trimmedEmail);
+      await kv.set(`subscribed:${trimmedEmail}`, token);
+    } catch (kvErr) {
+      console.error("KV storage error:", kvErr);
+    }
+
+    const resend = new Resend(apiKey);
     const { data, error } = await resend.emails.send({
       from: "PaymentRecovery Team <noreply@mail.paymentrecovery.io>",
       to: trimmedEmail,
       subject: "You're on the PaymentRecovery waitlist",
-      html: getWaitlistEmailHtml(),
-      text: WELCOME_EMAIL_TEXT,
+      html: getWaitlistEmailHtml(token),
+      text: getWelcomeEmailText(token),
     });
 
     if (error) {

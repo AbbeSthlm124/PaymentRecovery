@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Logo from "./Logo";
-import { Twitter, Linkedin, Github } from "lucide-react";
+import { Twitter, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -24,37 +24,33 @@ export default function Footer() {
             >
               About
             </Link>
-            <Link
-              href="#contact"
+            <a
+              href="mailto:contact@paymentrecovery.io"
               className="text-slate-500 hover:text-accent-teal text-sm font-medium transition-colors"
             >
-              Contact
-            </Link>
+              contact@paymentrecovery.io
+            </a>
           </nav>
           <div className="flex items-center gap-4">
             <motion.a
-              href="#"
+              href="https://x.com/PaymentR95199"
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               className="p-2 text-slate-500 hover:text-accent-teal transition-colors"
-              aria-label="Twitter"
+              aria-label="X (Twitter)"
             >
               <Twitter className="w-5 h-5" strokeWidth={2} />
             </motion.a>
             <motion.a
-              href="#"
+              href="https://www.linkedin.com/in/payment-recovery-1863763b2/"
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               className="p-2 text-slate-500 hover:text-accent-teal transition-colors"
               aria-label="LinkedIn"
             >
               <Linkedin className="w-5 h-5" strokeWidth={2} />
-            </motion.a>
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.1 }}
-              className="p-2 text-slate-500 hover:text-accent-teal transition-colors"
-              aria-label="GitHub"
-            >
-              <Github className="w-5 h-5" strokeWidth={2} />
             </motion.a>
           </div>
         </div>

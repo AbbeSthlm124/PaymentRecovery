@@ -10,6 +10,7 @@
     "logo:generate": "node scripts/generate-logo-png.js"
   },
   "dependencies": {
+    "@vercel/kv": "^3.0.0",
     "framer-motion": "^12.34.0",
     "lucide-react": "^0.454.0",
     "next": "14.2.18",
