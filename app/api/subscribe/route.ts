@@ -8,9 +8,10 @@ import { randomUUID } from "crypto";
 export const dynamic = "force-dynamic";
 
 const THIRTY_DAYS_SECONDS = 30 * 24 * 60 * 60;
+// Use environment variable if available, otherwise determine by environment
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+  process.env.NEXT_PUBLIC_BASE_URL ||
+  (process.env.NODE_ENV === "production" ? "https://www.paymentrecovery.io" : "http://localhost:3000");
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 function isValidEmail(email: string): boolean {
