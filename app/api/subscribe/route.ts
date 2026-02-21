@@ -8,10 +8,7 @@ import { randomUUID } from "crypto";
 export const dynamic = "force-dynamic";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://paymentrecovery.io";
-
-function getContactUrl(): string {
-  return `${SITE_URL}/waitlist#contact`;
-}
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,7 +28,7 @@ function getLogoDataUri(): string {
 
 function getWaitlistEmailHtml(unsubscribeToken: string): string {
   const logoSrc = getLogoDataUri();
-  const unsubscribeUrl = `${SITE_URL}/unsubscribe?token=${unsubscribeToken}`;
+  const unsubscribeUrl = `${SITE_URL}${BASE_PATH}/unsubscribe?token=${unsubscribeToken}`;
   return `
 <!DOCTYPE html>
 <html>
@@ -62,7 +59,7 @@ function getWaitlistEmailHtml(unsubscribeToken: string): string {
               <p style="margin: 0 0 24px; font-size: 15px; color: #cbd5e1;"><span style="color: #14b8a6;">✓</span> No spam, just product updates</p>
               <p style="margin: 0 0 32px; font-size: 14px; color: #64748b;"><span style="color: #14b8a6;">✓</span> Join 50+ SaaS founders already on the waitlist</p>
               <p style="margin: 0; font-size: 16px; font-weight: 600; color: #ffffff;">PaymentRecovery Team</p>
-              <p style="margin: 16px 0 0; font-size: 14px; color: #64748b;">Questions? Contact us at <a href="${getContactUrl()}" style="color: #14b8a6; text-decoration: none;">paymentrecovery.io/waitlist#contact</a></p>
+              <p style="margin: 16px 0 0; font-size: 14px; color: #64748b;">Questions? Contact us at <a href="mailto:contact@paymentrecovery.io" style="color: #14b8a6; text-decoration: none;">contact@paymentrecovery.io</a></p>
               <p style="margin: 16px 0 0; font-size: 11px; color: #64748b;"><a href="${unsubscribeUrl}" style="color: #64748b; text-decoration: underline;">Unsubscribe</a> from these emails</p>
               <p style="margin: 24px 0 0; font-size: 11px; color: #475569;">Stop Losing Revenue to Failed Payments</p>
             </td>
@@ -96,9 +93,9 @@ Join 50+ SaaS founders already on the waitlist.
 
 PaymentRecovery Team
 
-Questions? Contact us at paymentrecovery.io/waitlist#contact
+Questions? Contact us at contact@paymentrecovery.io
 
-Unsubscribe: ${SITE_URL}/unsubscribe?token=${unsubscribeToken}`;
+Unsubscribe: ${SITE_URL}${BASE_PATH}/unsubscribe?token=${unsubscribeToken}`;
 }
 
 export async function POST(request: Request) {
