@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
 export default function Hero() {
@@ -42,6 +41,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-mesh-gradient pointer-events-none" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-teal/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent-teal/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
       {/* Grid overlay */}
       <div
         className="absolute inset-0 opacity-[0.02] pointer-events-none"
@@ -53,31 +53,21 @@ export default function Hero() {
       />
 
       <div className="relative max-w-7xl mx-auto text-center w-full">
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-[-0.03em] text-white leading-[1.1] max-w-5xl mx-auto"
-        >
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-xl bg-white/5 border border-white/10 mb-8">
+          <span className="text-slate-400 text-sm">Built for Memberships · Communities · Newsletters · Courses</span>
+        </div>
+
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-[-0.03em] text-white leading-[1.1] max-w-5xl mx-auto">
           Stop Losing Revenue to{" "}
           <span className="bg-gradient-to-r from-accent-teal via-accent-tealLight to-accent-teal bg-clip-text text-transparent">
             Failed Payments
           </span>
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed"
-        >
-          Automatically recover failed subscription payments with smart retry logic.
-          Reclaim up to 35% of otherwise lost revenue.
-        </motion.p>
+        </h1>
+        <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed">
+          Smart recovery for Stripe subscriptions. We retry failed payments automatically – you keep customers.
+        </p>
 
-        <motion.form
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        <form
           onSubmit={handleSubmit}
           className="flex flex-col sm:flex-row gap-3 justify-center items-center mt-10 max-w-md mx-auto sm:max-w-lg"
         >
@@ -87,19 +77,17 @@ export default function Hero() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
             disabled={status === "loading"}
-            className="w-full sm:flex-1 px-6 py-3.5 bg-void-800/80 border border-void-600 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-accent-teal/50 focus:border-accent-teal transition-all disabled:opacity-60"
+            className="w-full sm:flex-1 px-6 py-3.5 backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-accent-teal/50 focus:border-accent-teal transition-all disabled:opacity-60"
             required
           />
-          <motion.button
+          <button
             type="submit"
             disabled={status === "loading"}
-            whileHover={status === "idle" ? { scale: 1.02 } : {}}
-            whileTap={status === "idle" ? { scale: 0.98 } : {}}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-accent-teal text-white font-semibold hover:bg-accent-tealLight hover:shadow-lg hover:shadow-accent-teal/25 transition-all duration-300 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-accent-teal text-white font-semibold hover:bg-accent-tealLight hover:shadow-lg hover:shadow-accent-teal/25 whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {status === "loading" ? "Joining..." : "Get Early Access"}
-          </motion.button>
-        </motion.form>
+          </button>
+        </form>
 
         {status === "success" && (
           <p className="mt-4 text-accent-teal font-medium">
@@ -112,15 +100,10 @@ export default function Hero() {
           </p>
         )}
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex items-center justify-center gap-2 mt-8 text-slate-500"
-        >
+        <div className="flex items-center justify-center gap-2 mt-8 text-slate-500">
           <Check className="w-5 h-5 text-accent-teal flex-shrink-0" strokeWidth={2.5} />
-          <span className="text-sm md:text-base">Join 50+ SaaS founders already on the waitlist</span>
-        </motion.div>
+          <span className="text-sm md:text-base">Join 50+ SaaS founders recovering failed payments</span>
+        </div>
       </div>
     </section>
   );

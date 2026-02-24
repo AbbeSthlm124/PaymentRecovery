@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import Logo from "./Logo";
 import { Menu, X } from "lucide-react";
 
@@ -17,17 +16,14 @@ export default function Header() {
   }, []);
 
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
-        scrolled
-          ? "bg-void-900/90 backdrop-blur-xl border-b border-void-600/50"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 py-4">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full px-4 pt-4 md:px-6 md:pt-4">
+      <div
+        className={`mx-auto transition-all duration-300 ${
+          scrolled
+            ? "max-w-2xl rounded-2xl px-6 py-2.5 backdrop-blur-xl bg-white/5 border border-white/10 shadow-xl"
+            : "max-w-7xl px-6"
+        }`}
+      >
         <div className="flex items-center justify-between">
           <Link href="#" className="flex-shrink-0" aria-label="PaymentRecovery Home">
             <Logo />
@@ -35,25 +31,31 @@ export default function Header() {
 
           <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             <Link
-              href="#features"
-              className="text-slate-400 hover:text-accent-teal font-medium text-base transition-colors duration-200"
-            >
-              Features
-            </Link>
-            <Link
               href="#about"
-              className="text-slate-400 hover:text-accent-teal font-medium text-base transition-colors duration-200"
+              className="text-slate-400 hover:text-accent-teal font-medium text-sm transition-colors duration-200"
             >
               About
+            </Link>
+            <Link
+              href="#pricing"
+              className="text-slate-400 hover:text-accent-teal font-medium text-sm transition-colors duration-200"
+            >
+              Pricing
+            </Link>
+            <Link
+              href="#faq"
+              className="text-slate-400 hover:text-accent-teal font-medium text-sm transition-colors duration-200"
+            >
+              FAQ
             </Link>
           </nav>
 
           <div className="hidden md:block">
             <Link
               href="#cta"
-              className="group inline-flex items-center justify-center px-8 py-3 rounded-full bg-accent-teal text-white font-semibold text-base transition-all duration-300 hover:bg-accent-tealLight hover:shadow-lg hover:shadow-accent-teal/25"
+              className="group inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-accent-teal text-white font-semibold text-sm hover:bg-accent-tealLight hover:shadow-lg hover:shadow-accent-teal/25"
             >
-              Get Early Access
+              Get Started
             </Link>
           </div>
 
@@ -71,39 +73,39 @@ export default function Header() {
           </button>
         </div>
 
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden mt-4 pt-4 border-t border-void-600 flex flex-col gap-4 overflow-hidden"
-            >
-              <Link
-                href="#features"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-400 hover:text-accent-teal font-medium text-base py-2"
-              >
-                Features
-              </Link>
+        {mobileMenuOpen && (
+            <div className="md:hidden mt-4 pt-4 border-t border-white/10 flex flex-col gap-4 overflow-hidden backdrop-blur-xl bg-white/5 rounded-2xl p-4 -mx-2">
               <Link
                 href="#about"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-400 hover:text-accent-teal font-medium text-base py-2"
+                className="text-slate-400 hover:text-accent-teal font-medium text-sm py-2"
               >
                 About
               </Link>
               <Link
+                href="#pricing"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-slate-400 hover:text-accent-teal font-medium text-sm py-2"
+              >
+                Pricing
+              </Link>
+              <Link
+                href="#faq"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-slate-400 hover:text-accent-teal font-medium text-sm py-2"
+              >
+                FAQ
+              </Link>
+              <Link
                 href="#cta"
                 onClick={() => setMobileMenuOpen(false)}
-                className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-accent-teal text-white font-semibold text-base w-fit hover:bg-accent-tealLight"
+                className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-accent-teal text-white font-semibold text-sm w-fit hover:bg-accent-tealLight"
               >
-                Get Early Access
+                Get Started
               </Link>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
       </div>
-    </motion.header>
+    </header>
   );
 }

@@ -10,7 +10,7 @@ module.exports = {
       colors: {
         void: {
           950: "#070b10",
-          900: "#0c1016",
+          900: "#0A0A0A",
           800: "#111820",
           700: "#161d28",
           600: "#1e2836",
@@ -28,19 +28,7 @@ module.exports = {
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],
       },
-      animation: {
-        "fade-in": "fadeIn 0.6s ease-out forwards",
-        "float": "float 6s ease-in-out infinite",
-      },
       keyframes: {
-        fadeIn: {
-          "0%": { opacity: "0", transform: "translateY(12px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-8px)" },
-        },
         shimmer: {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },

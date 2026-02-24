@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 
 export default function UnsubscribeClient({ token }: { token: string | null }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -36,8 +35,8 @@ export default function UnsubscribeClient({ token }: { token: string | null }) {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-void-900 flex items-center justify-center px-6">
-        <div className="max-w-md w-full text-center">
+      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-6">
+        <div className="max-w-md w-full p-8 rounded-3xl backdrop-blur-xl bg-white/5 border border-white/10 text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Invalid or expired link</h1>
           <p className="text-slate-400 mb-6">
             This unsubscribe link is invalid or has expired.
@@ -55,12 +54,8 @@ export default function UnsubscribeClient({ token }: { token: string | null }) {
 
   if (status === "success") {
     return (
-      <div className="min-h-screen bg-void-900 flex items-center justify-center px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-md w-full text-center"
-        >
+      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-6">
+        <div className="max-w-md w-full p-8 rounded-3xl backdrop-blur-xl bg-white/5 border border-white/10 text-center">
           <h1 className="text-2xl font-bold text-white mb-4">You have been unsubscribed</h1>
           <p className="text-slate-400 mb-6">
             You will no longer receive emails from PaymentRecovery.
@@ -71,18 +66,14 @@ export default function UnsubscribeClient({ token }: { token: string | null }) {
           >
             Return home
           </Link>
-        </motion.div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-void-900 flex items-center justify-center px-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full"
-      >
+    <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-6">
+      <div className="max-w-md w-full p-8 rounded-3xl backdrop-blur-xl bg-white/5 border border-white/10">
         <h1 className="text-2xl font-bold text-white mb-4 text-center">
           Do you want to unsubscribe?
         </h1>
@@ -90,33 +81,29 @@ export default function UnsubscribeClient({ token }: { token: string | null }) {
           You will stop receiving emails from PaymentRecovery.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <motion.button
+          <button
             type="button"
             onClick={handleUnsubscribe}
             disabled={status === "loading"}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="px-6 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold transition-colors disabled:opacity-60"
+            className="px-6 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold disabled:opacity-60"
           >
             {status === "loading" ? "Unsubscribing..." : "Yes, unsubscribe"}
-          </motion.button>
-          <motion.button
+          </button>
+          <button
             type="button"
             onClick={handleNo}
             disabled={status === "loading"}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="px-6 py-3 rounded-xl bg-void-700 hover:bg-void-600 text-white font-semibold border border-void-600 transition-colors disabled:opacity-60"
+            className="px-6 py-3 rounded-xl backdrop-blur-xl bg-white/5 hover:bg-white/10 text-white font-semibold border border-white/10 disabled:opacity-60"
           >
             No, keep me subscribed
-          </motion.button>
+          </button>
         </div>
         {status === "error" && (
           <p className="mt-4 text-red-400 text-center text-sm">
             Something went wrong. Please try again or contact us.
           </p>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 }

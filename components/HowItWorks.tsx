@@ -1,76 +1,64 @@
 "use client";
 
-import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { motion } from "framer-motion";
+import { Link2, RefreshCw, Eye, Users } from "lucide-react";
 
 export default function HowItWorks() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const steps = [
     {
-      number: 1,
-      title: "Detect",
-      description:
-        "We integrate with your payment processor to automatically identify failed payment attempts as they happen.",
+      icon: Link2,
+      title: "Connect Stripe",
+      description: "One-click integration. We listen for failed payments.",
     },
     {
-      number: 2,
-      title: "Retry",
-      description:
-        "Our smart retry logic attempts to recover the payment at optimal times, avoiding customer frustration.",
+      icon: RefreshCw,
+      title: "We retry intelligently",
+      description: "Multiple attempts with smart timing based on failure reason and customer location.",
     },
     {
-      number: 3,
-      title: "Recover",
-      description:
-        "Track recovered revenue in real-time. Send emails to customers. Restore subscriptions automatically.",
+      icon: Eye,
+      title: "You see exactly why",
+      description: "We show you the reason behind every failed payment and retry strategy.",
+    },
+    {
+      icon: Users,
+      title: "You keep customers",
+      description: "When payment succeeds, subscription continues. No manual work.",
     },
   ];
 
   return (
-    <section ref={ref} id="about" className="py-24 px-6 bg-void-950 scroll-mt-20 relative overflow-hidden">
+    <section id="about" className="py-24 px-6 bg-void-950/50 scroll-mt-20 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent-teal/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="relative max-w-7xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-3xl md:text-4xl font-bold text-white text-center tracking-[-0.02em]"
-        >
+        <h2 className="text-3xl md:text-4xl font-bold text-white text-center tracking-[-0.02em]">
           How it works
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-slate-500 text-center mt-4 mb-16 max-w-xl mx-auto"
-        >
-          Three steps to turn failed payments back into revenue.
-        </motion.p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
-          {steps.map((step, i) => (
-            <motion.div
-              key={step.number}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                duration: 0.5,
-                delay: 0.15 + i * 0.1,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="relative flex flex-col items-center md:items-start text-center md:text-left group"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-void-800 border border-void-600 flex items-center justify-center mb-6 group-hover:border-accent-teal/50 group-hover:bg-accent-teal/5 transition-all duration-300">
-                <span className="text-xl font-bold text-accent-teal">{step.number}</span>
+        </h2>
+        <p className="text-slate-500 text-center mt-4 mb-16 max-w-xl mx-auto">
+          Four simple steps to recover your revenue.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {steps.map((step, i) => {
+            const Icon = step.icon;
+            return (
+              <div
+                key={step.title}
+                className="group relative p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-white/10 hover:border-accent-teal/30 hover:bg-white/[0.07]"
+              >
+                <span className="absolute -top-2 -right-2 w-8 h-8 flex items-center justify-center text-sm font-bold text-accent-teal rounded-full backdrop-blur-xl bg-white/5 border border-white/10">
+                  {i + 1}
+                </span>
+                <div className="w-12 h-12 rounded-xl bg-accent-teal/10 flex items-center justify-center mb-6 group-hover:bg-accent-teal/20 transition-colors">
+                  <Icon className="w-6 h-6 text-accent-teal" strokeWidth={2} />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-3 tracking-[-0.02em]">
+                  {step.title}
+                </h3>
+                <p className="text-slate-500 leading-relaxed text-sm">{step.description}</p>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3 tracking-[-0.02em]">
-                {step.title}
-              </h3>
-              <p className="text-slate-500 leading-relaxed">{step.description}</p>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
