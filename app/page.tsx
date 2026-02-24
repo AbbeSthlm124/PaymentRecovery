@@ -7,7 +7,6 @@ import Pricing from "@/components/Pricing";
 import FAQ from "@/components/FAQ";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
-import DebugRedisButton from "@/components/DebugRedisButton";
 
 export default function Home() {
   return (
@@ -23,8 +22,6 @@ export default function Home() {
         <CTA />
         <Footer />
       </main>
-      {/* Temporary: remove after diagnosing Redis */}
-      <DebugRedisButton />
     </>
   );
 }
